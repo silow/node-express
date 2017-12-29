@@ -1,0 +1,25 @@
+{% extends '../layout/base.html' %}
+{% block body %}
+    {% include '../common/header.html'%}
+    <div class="container">
+        <div class="sign">
+            <h1 class="title">Sign In</h1>
+            <form action="signin" accept-charset="UTF-8" method="post">
+                <dl class="sign-in-form">
+                    <dd>
+                        <label class="form-label" for="user">User</label>
+                        <input id="user" class="form-text" type="text" name="account">
+                    </dd>
+                    <dd>
+                        <label class="form-label" for="pwd">Password</label>
+                        <input id="pwd" class="form-text" type="password" name="pwd">
+                    </dd>
+                    <dd>
+                        <button class="btn btn-green" type="submit">Sign In</button>
+                        <button class="btn btn-blue" type="button">Create New Account</button>
+                    </dd>
+                </dl>
+            </form>
+        </div>
+    </div>
+{% endblock %}

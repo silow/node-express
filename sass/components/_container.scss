@@ -1,0 +1,13 @@
+.container{
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: $edge;
+    padding-right: $edge;
+    &::before,&::after{
+        content:'';
+        display: table;
+        width: 100%;
+        clear: both;
+    }
+}

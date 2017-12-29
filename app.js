@@ -20,6 +20,8 @@ var app = express();
 nunjacks.configure(path.join(__dirname, 'views'), {
 	autoescape: true,
 	express: app,
+	trimBlocks:true,
+	lstripBlocks:true,
 	watch: true
 });
 app.set('view engine', 'html');
@@ -32,27 +34,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(sassMiddleware({
-	/* Options */
+	sourceMap:true,
 	src: path.join(__dirname, 'sass'),
-	dest: path.join(__dirname, 'public/stylesheets'),
+	dest: path.join(__dirname, 'assets/css'),
 	debug: true,
 	outputStyle: 'compressed',
-	prefix: '/styles'
+	prefix:  '/css'
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'assets')));
 
 
 
 app.use(session({
 	secret: 'keyboard cat',
 	resave: false,
-	saveUninitialized: true
+	saveUninitialized: false
 }));
 
 app.use(function(req, res, next) {
 	if(!req.session.user){
-		if(req.url=="/login"){
+		if(/\/login+/.test(req.url)){
 			next();
 		}else{
 			res.redirect('/login');
