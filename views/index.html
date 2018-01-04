@@ -2,10 +2,13 @@
 <html>
   <head>
     <title>{{title}}</title>
-    <link type="text/css" rel='stylesheet' href='/styles/main.css' />
+    <link type="text/css" rel='stylesheet' href='/css/main.css' />
   </head>
   <body>
     <h1>{{title}}</h1>
-    <p>Welcome to {{title}}</p>
+    <p>Welcome to {{user.password}}</p>
+    <form action="/login/logout" accept-charset="UTF-8" method="post">
+      	<button class="btn btn-green">Sign out</button>
+    </form>
   </body>
 </html>

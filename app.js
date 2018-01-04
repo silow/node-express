@@ -20,8 +20,8 @@ var app = express();
 nunjacks.configure(path.join(__dirname, 'views'), {
 	autoescape: true,
 	express: app,
-	trimBlocks:true,
-	lstripBlocks:true,
+	trimBlocks: true,
+	lstripBlocks: true,
 	watch: true
 });
 app.set('view engine', 'html');
@@ -34,16 +34,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(sassMiddleware({
-	sourceMap:true,
+	sourceMap: true,
 	src: path.join(__dirname, 'sass'),
 	dest: path.join(__dirname, 'assets/css'),
 	debug: true,
 	outputStyle: 'compressed',
-	prefix:  '/css'
+	prefix: '/css'
 }));
 
 app.use(express.static(path.join(__dirname, 'assets')));
-
 
 
 app.use(session({
@@ -52,21 +51,24 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-app.use(function(req, res, next) {
-	if(!req.session.user){
-		if(/\/login+/.test(req.url)){
-			next();
-		}else{
-			res.redirect('/login');
-		}
-	} else if(req.session.user){
+app.use(function (req, res, next) {
+	res.locals.user = req.session.user;
+	next();
+});
+
+app.use('/login', login);
+
+app.use(function (req, res, next) {
+	if (!req.session.user) {
+		res.redirect('/login');
+	} else if (req.session.user) {
 		next();
 	}
 });
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/login', login);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
