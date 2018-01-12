@@ -5,7 +5,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 
 // load up the user model
 var mysql = require('mysql');
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcryptjs');
 var dbconfig = require('./dbconfig');
 const uuidv4 = require('uuid/v4');
 var connection = mysql.createConnection(dbconfig);
@@ -82,8 +82,8 @@ module.exports = function(passport) {
         'local-login',
         new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
-            usernameField : 'username',
-            passwordField : 'password',
+            usernameField : 'account',
+            passwordField : 'pwd',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form

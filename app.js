@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+//var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -9,11 +9,11 @@ var sassMiddleware = require('node-sass-middleware');
 var nunjacks = require('nunjucks');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var flash    = require('connect-flash');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
-var passport = require('passport');
-var flash    = require('connect-flash');
 
 var app = express();
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 // configuration ===============================================================
 // connect to our database
-require('./conf/passport')(passport); // pass passport for configuration
+require('./src/conf/passport')(passport); // pass passport for configuration
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -66,9 +66,8 @@ app.use(express.static(path.join(__dirname, 'assets')));
 // set flash
 app.use(flash());
 
-app.use('/login', login);
-
 app.use('/', index);
+app.use('/login', login);
 app.use('/users', users);
 
 
