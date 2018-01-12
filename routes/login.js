@@ -1,29 +1,49 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
-var dao = require('../dao/login/loginDao');
 
 /* GET users listing. */
-router.get('/', function (req, res) {
-	if(req.session.user){
-		res.redirect('/');
-	}else{
-		res.render('pages/login');
+router.get('/', (req, res) => {
+	res.render('pages/login');
+});
+
+router.post('/login', passport.authenticate('local-login', {
+	successRedirect: '/profile', // redirect to the secure profile section
+	failureRedirect: '/login', // redirect back to the signup page if there is an error
+	failureFlash: true // allow flash messages
+}), (req, res) => {
+	console.log("hello");
+	if (req.body.remember) {
+		req.session.cookie.maxAge = 1000 * 60 * 3;
+	} else {
+		req.session.cookie.expires = false;
 	}
-});
-
-router.post('/signin', function (req, res, next) {
-	dao.login(req, res, function(res,status){
-		if(status){
-			res.redirect('/');
-		}else{
-			res.redirect('pages/login');
-		}
-	});
-});
-
-router.post('/logout',function(req,res,next){
-	delete req.session.user
 	res.redirect('/');
 });
+
+router.post('/signup', (req, res) => {
+	res.render('signup.ejs', { message: req.flash('signupMessage') });
+});
+
+router.post('/profile', isLoggedIn, (req, res) => {
+	res.render('/pages/success');
+});
+
+router.get('/logout',(req,res)=>{
+	req.logout();
+	res.redirect('/');
+});
+
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on
+	if (req.isAuthenticated())
+		return next();
+
+	// if they aren't redirect them to the home page
+	res.redirect('/');
+}
+
 
 module.exports = router;

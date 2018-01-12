@@ -7,7 +7,7 @@ var sql = {
     userByID: 'select * from account where account= ? and password = ?'
 };
 module.exports = {
-    login:async function (req, res, callback) {
+    login: function (req, res, callback) {
         pool.getConnection(function (err, cont) {
             var name = req.body.account,
                 pwd = req.body.pwd,

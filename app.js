@@ -4,16 +4,29 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var sassMiddleware = require('node-sass-middleware')
-
+var flash = require('connect-flash');
+var sassMiddleware = require('node-sass-middleware');
 var nunjacks = require('nunjucks');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
+var passport = require('passport');
+var flash    = require('connect-flash');
 
 var app = express();
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// configuration ===============================================================
+// connect to our database
+require('./conf/passport')(passport); // pass passport for configuration
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -26,16 +39,22 @@ nunjacks.configure(path.join(__dirname, 'views'), {
 });
 app.set('view engine', 'html');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 
+//set express-session
+app.use(require('express-session')({
+	secret: 'silow lee Ly',
+	resave: false,
+	saveUninitialized: false
+}));
+
+//init passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//init sass middleware
 app.use(sassMiddleware({
 	sourceMap: true,
-	src: path.join(__dirname, 'sass'),
+	src: path.join(__dirname, 'src/sass'),
 	dest: path.join(__dirname, 'assets/css'),
 	debug: true,
 	outputStyle: 'compressed',
@@ -44,27 +63,10 @@ app.use(sassMiddleware({
 
 app.use(express.static(path.join(__dirname, 'assets')));
 
-
-app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: false
-}));
-
-app.use(function (req, res, next) {
-	res.locals.user = req.session.user;
-	next();
-});
+// set flash
+app.use(flash());
 
 app.use('/login', login);
-
-app.use(function (req, res, next) {
-	if (!req.session.user) {
-		res.redirect('/login');
-	} else if (req.session.user) {
-		next();
-	}
-});
 
 app.use('/', index);
 app.use('/users', users);
