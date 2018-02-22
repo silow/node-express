@@ -26,7 +26,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-	res.render('pages/success');
+	res.render('pages/layout_modify');
 });
 
 router.get('/logout',(req,res)=>{

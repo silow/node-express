@@ -6,7 +6,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 // load up the user model
 var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
-var dbconfig = require('./dbconfig');
+var dbconfig = require('../../conf/dbconfig');
 const uuidv4 = require('uuid/v4');
 var connection = mysql.createConnection(dbconfig);
 // expose this function to our app using module.exports
