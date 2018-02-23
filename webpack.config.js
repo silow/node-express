@@ -14,7 +14,7 @@ module.exports = {
 	},
 	devtool: 'inline-source-map',
 	entry: {
-		app: './src/index.js'
+		app: './src/index.jsx'
 	},
 	output: {
 		filename: 'assets/js/[name].bundle.js',
