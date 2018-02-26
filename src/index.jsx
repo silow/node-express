@@ -14,6 +14,11 @@ class App extends React.Component {
             showProperty:show
         })
     }
+    getChildContext(){
+        return {
+            showProperty:false
+        }
+    }
     render() {
         //JSX here!
         return (
@@ -24,7 +29,4 @@ class App extends React.Component {
         )
     }
 };
-
-const app = document.createElement('div');
-document.body.appendChild(app);
-ReactDOM.render(<App />, app);
+ReactDOM.render(<App />, document.body);

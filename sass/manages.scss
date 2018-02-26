@@ -8,7 +8,7 @@ body{
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
+    bottom: 10px;
     z-index: 1;
     width: 300px;
     color:#fff;
@@ -20,7 +20,7 @@ body{
     position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 10px;
     left: 300px;
     overflow: auto;
     background-color: #fafbfc;
@@ -137,7 +137,7 @@ body{
     position: fixed;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 10px;
     z-index: 10;
     width: 400px;
     color:#fff;

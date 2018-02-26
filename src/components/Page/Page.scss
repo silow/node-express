@@ -12,18 +12,30 @@
         padding: 0 5px;
         line-height: 22px;
         border-bottom: 1px solid #aaa;
-        cursor: pointer;
-        &:hover{
-            color:#fd062b;
-            h3{
-                transform: scale(1.1)
-            }
-        }
         h3{
             display: inline-block;
+            &:hover{
+                color:#fd062b;
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+        }
+        &:before{
+            content:"";
+            display: table;
+            clear: both;
         }
     }
-    .page-context{
-
+    .page-content{
+        padding: 0 5px;
+    }
+    .page-addrow{
+        float: right;
+        margin-top: 11px;
+        margin-right: 7px;
+        cursor: pointer;
+        &:active{
+            background-color: #fff;
+        }
     }
 }
