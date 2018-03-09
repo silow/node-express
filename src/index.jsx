@@ -1,8 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import Page from './components/Page/Page';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import showPanel from './reducer'
 import PropPanel from './components/PropPanel/PropPanel';
 import '../sass/base/_reset.scss';
+
+let store = createStore(showPanel)
 
 class App extends React.Component {
     constructor() {
@@ -11,12 +16,12 @@ class App extends React.Component {
     }
     toggleShowProperty = (show) => {
         this.setState({
-            showProperty:show
+            showProperty: show
         })
     }
-    getChildContext(){
+    getChildContext() {
         return {
-            showProperty:false
+            showProperty: false
         }
     }
     render() {
@@ -29,4 +34,8 @@ class App extends React.Component {
         )
     }
 };
-ReactDOM.render(<App />, document.body);
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.body);
